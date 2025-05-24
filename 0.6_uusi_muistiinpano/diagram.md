@@ -11,6 +11,9 @@ sequenceDiagram
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
     activate server
+    Note over server: Server updates the list with the new note
+    server-->>browser: Status: 201 Created '{message: Note created}'
+    deactivate server
 
-    Note over server: The server updates the list
+    Note over browser: Message just logged to the console
 ```
