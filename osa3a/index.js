@@ -1,10 +1,13 @@
 const express = require('express')
 const morgan = require('morgan');
+const cors = require('cors')
 
 const app = express()
 
 // enable express json parser -middleware
 app.use(express.json())
+
+app.use(cors())
 
 // enable morgan
 // luodaan oma token 'body'
@@ -84,7 +87,7 @@ app.post('/api/persons', (request, response) => {
     const person = {
         name: newName,
         number: body.number,
-        id: getRandomInt(100, 1000000000)
+        id: String(getRandomInt(100, 1000000000))
     }
     persons = persons.concat(person)
     // console.log(person)
