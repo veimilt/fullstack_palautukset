@@ -29,9 +29,8 @@ const App = () => {
     if (confirm(`Delete ${name}?`)) {
       phoneBookService
         .deletePerson(id)
-        .then(responseData => {
-          console.log(responseData)
-          setPersons(persons.filter(p => p.id !== responseData.id))
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== id))
         })
         .then(() => {
           setNotificationStyle('good')
@@ -107,7 +106,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <>
       <h1>Phonebook</h1>
       <SearchFilter name="filter by string:" onChange={handleSearch} />
       <h2>Add a new person</h2>
@@ -116,7 +115,7 @@ const App = () => {
       <Persons filteredPersons={filteredPersons} onDeletePerson={handleDeletePerson} />
       <Notification message={notificationMessage} notificationType={notificationStyle} />
       <Footer />
-    </div>
+    </>
   )
 }
 

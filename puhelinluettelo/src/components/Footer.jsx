@@ -6,13 +6,13 @@ const Footer = () => {
     }
 
     return (
-        <div style={footerStyle}>
+        <footer style={footerStyle}>
             <br />
             <p>
                 Puhelinluettelo 2025
             </p>
             <br />
-        </div>
+        </footer>
     )
 }
 
