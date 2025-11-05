@@ -102,6 +102,7 @@ app.post('/api/persons', (request, response, next) => {
     newPerson.save()
         .then(savedPerson => {
             console.log(`Added ${newName} number ${body.number} to phonebook`)
+            response.json(newPerson)
         })
         .catch(error => next(error))
 
@@ -118,7 +119,6 @@ app.post('/api/persons', (request, response, next) => {
     // }
     // persons = persons.concat(person)
     // console.log(person)
-    response.json(newPerson)
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -130,7 +130,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     )
         .then(oldPerson => {
             console.log(`updated the person ${id} number from ${oldPerson.number} to ${number}`)
-            response.json({...oldPerson.toObject(), number})
+            response.json({ ...oldPerson.toObject(), number })
         })
         .catch(error => next(error))
 })
@@ -148,10 +148,12 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
-    console.error(error.message)
+    console.log("error message from the errorHandler\n", error.message)
 
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).send({ error })
     }
     next(error)
 }

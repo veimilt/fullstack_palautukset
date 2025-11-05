@@ -15,9 +15,26 @@ mongoose.connect(url)
     })
 
 const phoneBookSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minlength: 3,
+        required: true
+    },
+    number: {
+        type: String,
+        minlength: 8,
+        required: [true, 'User phone number required'],
+        validate: {
+            validator: function (v) {
+                // must match 2 or 3 digits, hyphen, then 4+ digits
+                // e.g. 09-1234556, 040-22334455
+                return /^\d{2,3}-\d+$/.test(v);
+            },
+            message: props => `${props.value} is invalid. Expected 2-3 digits, a hyphen, then at least 4 digits (e.g. 09-1234 or 040-12345).`
+        }
+    }
 })
+
 
 phoneBookSchema.set('toJSON', {
     transform: (document, returnedObject) => {
